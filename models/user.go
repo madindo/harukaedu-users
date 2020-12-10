@@ -14,6 +14,7 @@ type User struct {
 
 type Address struct {
 	gorm.Model
+	id	int64 `json:"ID"`
 	City string `json:"city`
 	UserID uint `json:"user_id"`
 }

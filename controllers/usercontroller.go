@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"harukaedu-users/models"
-	"harukaedu-main/database"
-	"harukaedu-main/errors"
+	"github.com/madindo/harukaedu-users/models"
+	"github.com/madindo/harukaedu-main/database"
+	"github.com/madindo/harukaedu-main/errors"
 	"github.com/gorilla/mux"
-	"harukaedu-main/logs"
+	"github.com/madindo/harukaedu-main/logs"
 )
 
 var db *gorm.DB
@@ -18,9 +18,8 @@ func UserIndex (response http.ResponseWriter, request *http.Request) {
 
 	db := database.Connect()
 	defer db.Close()
-
 	var users [] models.User
-	db.Find(&users)
+	db.Preload("Address").Find(&users)
 	json.NewEncoder(response).Encode(users)
 	logs.Logging("INFO", "Hit UserIndex - show list users")
 }
